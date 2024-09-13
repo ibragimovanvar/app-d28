@@ -5,10 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class User implements Serializable {
     private static long counterId = 1;
     private Long id;
     private String fullName;
