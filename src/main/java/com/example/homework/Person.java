@@ -1,8 +1,17 @@
 package com.example.homework;
 
-public abstract class Person {
-    int age;
-    String name;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-    public abstract void getInfo();
+@Setter
+@Getter
+public abstract class Person {
+    private int age;
+    private String name;
+
+    public Person(int age, String name) {
+        this.age = age;
+        this.name = name;
+    }
 }
