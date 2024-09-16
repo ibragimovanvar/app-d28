@@ -13,45 +13,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-public class DatabaseObjects {
+public class DatabaseObjects implements Serializable{
+
     public static List<User> users = new ArrayList<>();
     public static List<Basket> baskets = new ArrayList<>();
     public static List<Product> products = new ArrayList<>();
     public static List<Card> cards = new ArrayList<>();
 
-    static {
-//        loadAllUsers();
-    }
-
-    private static void loadAllUsers() {
-
-        User user = null;
-        try {
-            FileInputStream fis = new FileInputStream("users.txt");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            if (ois.available() != -1){
-                user = (User) ois.readObject();
-                while (user != null) {
-                    users.add(user);
-                    user = (User) ois.readObject();
-                }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    @SneakyThrows
-    public static void saveAllUsers() {
-        FileOutputStream fos = new FileOutputStream("users.txt");
-        ObjectOutputStream ois = new ObjectOutputStream(fos);
-        for (User user : users) {
-            ois.writeObject(user);
-        }
-    }
 
 
     public static Scanner inNum = new Scanner(System.in);

@@ -5,10 +5,42 @@ import com.example.model.Product;
 import com.example.model.User;
 import com.example.model.enums.Role;
 
+import java.io.*;
+import java.util.List;
+
 import static com.example.database.DatabaseObjects.*;
 
 public class ProgramRun {
+    public static void saveDataToFile() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("database.ser"))) {
+            oos.writeObject(DatabaseObjects.users);
+            oos.writeObject(DatabaseObjects.products);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void shutdown() {
+        saveDataToFile();
+        System.exit(0);
+    }
+
+    public static void loadDataFromFile() {
+        File file = new File("database.ser");
+        if (file.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+                DatabaseObjects.users = (List<User>) ois.readObject();
+                DatabaseObjects.products = (List<Product>) ois.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     public static void main(String[] args) {
+
+        loadDataFromFile();
+
+        Runtime.getRuntime().addShutdownHook(new Thread(ProgramRun::saveDataToFile));
 
         while (true) {
             chooseLanguage();
@@ -84,7 +116,7 @@ public class ProgramRun {
 
                             }
                             case 4 -> {
-                                System.out.println(developerMenu.get(langPrefix + "_LOGOUT_MENU").split("_")[0]);
+                                System.out.println(developerMenu.get(langPrefix + "_LOGOUT_MENU"));
 //                                break registerQism;
                             }
                         }
